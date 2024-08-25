@@ -67,17 +67,27 @@ import { blank, square, show, heart, beside, stack} from 'rune';
 
 // Q2: 
 
-// function f1(rune_1, rune_2, rune_3) {
-//     return beside(rune_1, stack(rune_2, rune_3));
+// function f2(rune, n) {
+// return n === 0
+//       ? rune
+//       : stack(beside(blank, f2(rune, n - 1)),square);
 // }
 
-// function f2(rune_1, rune_2, rune_3) {
-//     return beside(rune_1, stack(rune_2, f1(rune_1, rune_2, rune_3)));
-// }
+// show(f2(heart,2));
+function f1(rune_1, rune_2, rune_3) {
+    return stack(beside(rune_2, rune_3), rune_1);
+}
 
-// function f3(rune_1, rune_2, rune_3) {
-//     return beside(rune_1, stack(rune_2, f2(rune_1, rune_2, rune_3)));
-// }
+function f2(rune_1, rune_2, rune_3) {
+    return stack(beside(rune_2, f1(rune_1, rune_2, rune_3)), rune_1);
+}
+
+function f3(rune_1, rune_2, rune_3) {
+    return stack(beside(rune_2, f2(rune_1, rune_2, rune_3)), rune_1);
+}
+show(f3(square, blank, heart));
+
+
 
 // function f4(rune_1, rune_2, rune_3) {
 //     return beside(rune_1, stack(rune_2, f3(rune_1, rune_2, rune_3)));    
@@ -86,14 +96,10 @@ import { blank, square, show, heart, beside, stack} from 'rune';
 // function f5(rune_1, rune_2, rune_3) {
 //     return beside(rune_1, stack(rune_2, f4(rune_1, rune_2, rune_3)));    
 // }
-// show(f3(square, blank, heart));
 
-return n === 0
-? rune
-: stack(beside(blank, f2(rune, n - 1)),
-square);
-}
-show(f2(heart, 3));
+
+
+
 
 
 
