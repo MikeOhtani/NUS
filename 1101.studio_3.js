@@ -6,33 +6,55 @@ import { blank, square, show, heart, beside, stack} from 'rune';
 //           : f1(rune_1, n - 1, beside(rune_1,stack(blank, rune_2)));
 // }
 
-// show(f1(square, 3, heart));
-Q1: 
-function f1(rune1, rune2) {
-    stack(rune1, rune2);
-}
+// Method 1
+// function f6(rune1, rune2) {
+//     return beside(square, f5(rune1, rune2));
+// }
 
-function f2(rune1, rune2) {
-    beside(square,f1(rune1, rune2));
-}
+// function f5(rune1, rune2) {
+//     return stack(blank, f4(rune1, rune2));
+// }
 
-function f3(rune1, rune2) {
-    stack(blank,f2(rune1, rune2));
-}
+// function f4(rune1, rune2) {
+//     return beside(square, f3(rune1, rune2));
+// }
 
-function f4(rune1, rune2) {
-    beside(square,f3(rune1, rune2));
-}
+// function f3(rune1, rune2) {
+//     return stack(blank, f2(rune1, rune2));
+// }
 
-function f5(rune1, rune2) {
-    stack(blank, f4(rune1, rune2));
-}
+// function f2(rune1, rune2) {
+//     return beside(square, f1(rune1, rune2));
+// }
 
-function f6(rune1, rune2) {
-    beside(square, f5(rune1, rune2));
-}
+// function f1(rune1, rune2) {
+//     return stack(rune1, rune2);
+// }
 
-show(f1(blank, heart));
+// show(f6(blank, heart));
+
+// Alternative
+// function f1(rune_1, rune_2, rune_3) {
+//     return beside(rune_1, stack(rune_2, rune_3));
+// }
+
+// function f2(rune_1, rune_2, rune_3) {
+//     return beside(rune_1, stack(rune_2, f1(rune_1, rune_2, rune_3)));
+// }
+
+// function f3(rune_1, rune_2, rune_3) {
+//     return beside(rune_1, stack(rune_2, f2(rune_1, rune_2, rune_3)));
+// }
+
+// function f4(rune_1, rune_2, rune_3) {
+//     return beside(rune_1, stack(rune_2, f3(rune_1, rune_2, rune_3)));    
+// }
+
+// function f5(rune_1, rune_2, rune_3) {
+//     return beside(rune_1, stack(rune_2, f4(rune_1, rune_2, rune_3)));    
+// }
+// show(f3(square, blank, heart));
+
 
 // Use the substitution model on runes demonstrated during Lecture L2A in order to manually
 // evaluate the expression f1(square, 3, heart). The evaluation proceeds as demonstrated
@@ -65,3 +87,13 @@ show(f1(blank, heart));
 //     return beside(rune_1, stack(rune_2, f4(rune_1, rune_2, rune_3)));    
 // }
 // show(f3(square, blank, heart));
+
+return n === 0
+? rune
+: stack(beside(blank, f2(rune, n - 1)),
+square);
+}
+show(f2(heart, 3));
+
+
+
