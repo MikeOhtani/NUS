@@ -1,0 +1,24 @@
+// function foo(x, y) {
+//     return x === 0
+//          ? y === 0
+//          ? 1
+//          : foo(x, y - 1)
+//          : foo(x - 1, y);
+// }
+
+
+// foo(0, 2);
+
+function z (g, x) {
+    return g(g(x));
+}
+
+function square(x) {
+    return x * x;
+}
+
+function C(x) {
+    return z (square(x), x);
+}
+
+C(2);
