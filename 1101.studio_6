@@ -1,0 +1,47 @@
+// function accumulate(op, initial, xs) {
+//         return is_null(xs)
+//              ? initial
+//              : op(head(xs), accumulate(op, initial, tail(xs)));
+// }
+/*1*/
+
+// function my_map (op, xs) {
+//     function accumulate(op, initial, xs) {
+//      return is_null(xs)
+//           ? null
+//           : op(head(xs), accumulate(op, initial, tail(xs)));
+// }
+//     return accumulate(op, null, xs);
+// }
+
+// my_map((x, y) => pair(x + 1, list(1, 2, 3)), list(1, 2, 3));
+
+
+// // function 
+// // member(3, list(1,2,3,4)) return list(3,4)
+// // enum_list
+
+// /*2*/
+
+// function remove_duplicates(xs) {
+//     function filter(pre, xs){
+//         return is_null(xs)
+//              ? null 
+//              : pair(head(xs)), remove_duplicates()
+// }
+
+// remove_duplicates(list(1, 2, 3, 4, 4));
+
+// /*3*/ 
+
+/* Q1 */ function remove_duplicates(xs) {
+    function accumulate(op, initial, xs) {
+        return is_null(xs)
+             ? initial
+             : op()
+    } 
+    return accumulate((x, y) => !== (head(xs))
+                           ?)
+}
+
+
