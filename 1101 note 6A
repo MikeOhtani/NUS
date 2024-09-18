@@ -1,0 +1,43 @@
+// Run time: each step is the one call of function
+
+// bin
+
+
+// binary search 
+
+/* BST has properties of left subtree smaller than the entry
+
+and right subtree bigger than the entry */
+
+// BST cut down the problem by half for each call to find the answer quicker
+
+
+// total order means data in one set can be compared by using > < or =.
+
+
+
+/* sort the list by comparing the head and head of the tail; if the later bigger
+
+
+
+
+
+
+/* Selection sort by using remove function.
+
+selection_sort is a model function and we need use another function to solve it*/
+
+
+// initial value in accumulate function has no impact to the accumulation
+
+
+m = n / 2 for merge sort: before merge, the list need to be sorted first. the sorted list 
+
+Binary search need the list or lists to be sorted in order.
+
+
+
+symbolic ealuation is a set up for symbolic differentiation.
+
+
+
