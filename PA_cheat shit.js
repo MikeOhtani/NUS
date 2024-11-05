@@ -489,7 +489,7 @@ function list_combination_sum(sum, c) {
 
 --------------------------------------------------------------------------------
 
-// Sum(take a list and return a list with first element to be even rank sum, and second to be old rank sum) (list rank starts from 0)
+// take a list and return a list with first element to be even rank sum, and second to be old rank sum (list rank starts from index 0)
 
 // sum_even_old(list(1, 2, 3, 4)) ===> list(4, 6);
 
@@ -530,9 +530,8 @@ function remove_duplicates(lst) {
 }
 
 --------------------------------------------------------------------------------
-
-// Array Functions
-
+--------------------------------------------------------------------------------
+// Array_functions
 function accum_array(op, init, A) {
     let x = init;
     for (let i = init; i < array_length(A); i = i + 1) { 
@@ -571,6 +570,7 @@ function filter_array(pred, A) {
 // Array-copying function 
 
 // take an 1D array A and return a new array B which has the same elements in A.
+
 function copy_array(A) {
     const len = array_length(A);
     const B = [];
@@ -585,7 +585,6 @@ function copy_array(A) {
 // Array element swap function 
 
 // swap the elementa inside a 1D Array 
-
 function swap(A, x, y) {
     const temp = A[x];
     A[x] = A[y];
@@ -606,33 +605,47 @@ function add_element_to_back(element, arr) {
 
 --------------------------------------------------------------------------------
 
+// Build a new array with n element where the first element starts from 0 
 function build_array(n, f) {
     const A = [];
-    for (let I = 0; I < n; I = I + 1) {
+    for (let i = 0; i < n; i = i + 1) {
         A[i] = f(i);
     }
     return A;
 }
 
+// build_array(5, x => x); ===> [0, 1, 2, 3, 4] 
+
+--------------------------------------------------------------------------------
+
+// transfer a 1D Array A to list 
 function array_to_list(A) {
     const len = array_length(A);
     let L = null;
-    for (let I = len– 1; I >= 0; I = I– 1) {
+    for (let i = len - 1; i >= 0; i = i - 1) {
         L = pair(A[i], L);
     }
     return L;
 }
 
+--------------------------------------------------------------------------------
+
+// transfer a list L to a 1D Array 
 function list_to_array(L) {
     const A = [];
-    let I = 0;
+    let i = 0;
     for (let p = L; !is_null(p); p = tail(p)) {
         A[i] = head(p);
-        I = I + 1;
+        i = i + 1;
     }
     return A;
 }
 
+// list_to_array(list(1, 2, 3, 4 )) ===> [1, 2, 3 ,4]
+
+--------------------------------------------------------------------------------
+
+// take whatever Array arr into a 1D array which contains all the elements in Array arr
 function flatten_array(arr) {
     let index_count = 0;
     let result = [];
@@ -648,11 +661,18 @@ function flatten_array(arr) {
                 index_count = index_count + 1;
             }
         }
+        return result;
     }
-    helper(arr);
-    return result;
+    return helper(arr);
 }
 
+//flatten_array([ [1, 2, 3], [1, 2 ,[1, 2, 3]], [1, 2, 3] ]);
+
+         //===>  [1, 2, 3, 1, 2, 1, 2, 3, 1, 2, 3]
+         
+--------------------------------------------------------------------------------
+
+// take two whatever Arrays arr1 and arr2, and return a 1D Array which takes all elements from arr1 first and arr2 after.
 function append_array(arr1, arr2) {
     let final = [];
     for (let i = 0; i < array_length(arr1); i = i + 1) {
@@ -664,6 +684,13 @@ function append_array(arr1, arr2) {
     return final;
 }
 
+// append_array(arr1: [1, 2, [3, 4], 4],    arr2: [1, 2, [1, 2], 4, [2, [2, 4]]]);
+
+         //===> [1, 2, [3, 4], 4, 1, 2, [1, 2], 4, [2, [2, 4]]]
+        
+--------------------------------------------------------------------------------
+
+// take whatever Array arr and return a reversed version 
 function arr_reverse(arr) {
     const reversed_arr = [];
     const len = array_length(arr);
@@ -673,6 +700,11 @@ function arr_reverse(arr) {
     return reversed_arr;
 }
 
+// arr_reverse([1, 2, 3, 4]); ===> [4, 3, 2, 1]
+
+// arr_reverse([1, 2, [1, 2], 4, [2, [2, 4]]]) ===> [[2, [2, 4]], 4, [1, 2], 2, 1]
+
+--------------------------------------------------------------------------------
 function d_arr_reverse(arr) {
     const len = array_length(arr);
     for (let i = 0; i < len / 2; i = i + 1) {
@@ -756,7 +788,10 @@ function arraytree_to_tree(a) {
     }
 }
 
-// Stream
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+// Stream_function
 function every_other(s) {
     return pair(head(s), () => every_other(stream_tail(
         stream_tail(s))));
@@ -886,13 +921,34 @@ function fibgen(a, b) {
     return pair(a, () => fibgen(b, a + b));
 }
 
-function more(a, b) {
-    return (a > b) ? more(1, 1 + b) :
-        pair(a, () => more(a + 1, b));
-}
-const moremore = more(1, 1);
-eval_stream(moremore, 15);
+--------------------------------------------------------------------------------
 
+// return a stream of numbers repeated with respect to the times of max number in each round. 
+
+// eval_stream(more_and_more_1(), 10); ===> list(1, 1, 2, 1, 2, 3, 1, 2, 3, 4)
+function more_and_more_1() {
+    function helper(a, b) {
+        return a > b
+             ? helper(1, b + 1) // act as a re-setter to increase the number limit by 1
+             : pair(a, () => helper(a + 1, b));
+    }
+    return helper(1, 1);
+}
+
+
+// return a stream of numbers repeated in times of number itself.
+
+//eval_stream(more_and_more_2, 10) ===> list(1, 2, 2, 3, 3, 3, 4, 4, 4, 4)
+function more_and_more_2() {
+    function helper(a, b) {
+        return a > b
+             ? helper(1, b + 1)
+             : pair(b, () => helper(a + 1, b));
+    }
+    return helper(1, 1);
+}
+
+--------------------------------------------------------------------------------
 function shorten_stream(s, k) {
     return k === 0 ?
         list() : is_null(s) ?
