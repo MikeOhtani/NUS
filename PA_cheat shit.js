@@ -530,15 +530,48 @@ function remove_duplicates(lst) {
 }
 
 --------------------------------------------------------------------------------
+
 // Array Functions
+
+// accum_array((x, y) => x + y, 0, [1, 2, 3, 4]) ======> 10 ( sum of all element in the array)
+
 function accum_array(op, init, A) {
     let x = init;
-    for (let i = init; i < array_length(A); i = i + 1) {
+    for (let i = init; i < array_length(A); i = i + 1) { 
         x = op(x, A[i]);
     }
     return x;
 }
 
+--------------------------------------------------------------------------------
+
+function map_array(f, arr) {
+    for (let i = 0; i < array_length(arr); i = i + 1) {
+        arr[i] = f(arr[i]);
+    }
+    return arr;
+}
+
+--------------------------------------------------------------------------------
+
+//filter_array(x => x % 2 === 0, [1, 2, 3, 4]) ===> [2, 4]
+
+function filter_array(pred, A) {
+    let filtered_A = [];
+    
+    for (let i = 0; i < array_length(A); i = i + 1) {
+        if (pred(A[i])) {
+            filtered_A[array_length(filtered_A)] = A[i];
+        } else {}
+    }
+    return filtered_A;
+}
+
+--------------------------------------------------------------------------------
+
+// Array-copying function 
+
+// take an 1D array A and return a new array B which has the same elements in A.
 function copy_array(A) {
     const len = array_length(A);
     const B = [];
@@ -546,26 +579,31 @@ function copy_array(A) {
         B[i] = A[i];
     }
     return B;
+    
 }
 
-function map_array(f, arr) {
-    for (let I = 0; I < array_length(arr); I = I + 1) {
-        arr[i] = f(arr[i]);
-    }
-    return arr;
-}
+--------------------------------------------------------------------------------
+// Array element swap function 
 
+// swap the elementa inside a 1D Array 
+
+// swap([1, 2, 3, 4], 1, 2) ===> [1, 3, 2, 4]
 function swap(A, x, y) {
     const temp = A[x];
     A[x] = A[y];
     A[y] = temp;
 }
 
-function add_back(element, arr) {
+--------------------------------------------------------------------------------
+// add_element_to_back(3, [1, 2, 3, 4]);===> [1, 2, 3, 4, 3]
+
+function add_element_to_back(element, arr) {
     const len = array_length(arr);
     arr[len] = element;
-    //return arr; (return optional)
+    return arr;
 }
+
+--------------------------------------------------------------------------------
 
 function build_array(n, f) {
     const A = [];
