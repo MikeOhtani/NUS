@@ -533,8 +533,6 @@ function remove_duplicates(lst) {
 
 // Array Functions
 
-// accum_array((x, y) => x + y, 0, [1, 2, 3, 4]) ======> 10 ( sum of all element in the array)
-
 function accum_array(op, init, A) {
     let x = init;
     for (let i = init; i < array_length(A); i = i + 1) { 
@@ -542,6 +540,8 @@ function accum_array(op, init, A) {
     }
     return x;
 }
+
+// accum_array((x, y) => x + y, 0, [1, 2, 3, 4]) ======> 10 ( sum of all element in the array)
 
 --------------------------------------------------------------------------------
 
@@ -554,8 +554,6 @@ function map_array(f, arr) {
 
 --------------------------------------------------------------------------------
 
-//filter_array(x => x % 2 === 0, [1, 2, 3, 4]) ===> [2, 4]
-
 function filter_array(pred, A) {
     let filtered_A = [];
     
@@ -566,6 +564,7 @@ function filter_array(pred, A) {
     }
     return filtered_A;
 }
+//filter_array(x => x % 2 === 0, [1, 2, 3, 4]) ===> [2, 4]
 
 --------------------------------------------------------------------------------
 
@@ -587,21 +586,23 @@ function copy_array(A) {
 
 // swap the elementa inside a 1D Array 
 
-// swap([1, 2, 3, 4], 1, 2) ===> [1, 3, 2, 4]
 function swap(A, x, y) {
     const temp = A[x];
     A[x] = A[y];
     A[y] = temp;
 }
 
+// swap([1, 2, 3, 4], 1, 2) ===> [1, 3, 2, 4]
+
 --------------------------------------------------------------------------------
-// add_element_to_back(3, [1, 2, 3, 4]);===> [1, 2, 3, 4, 3]
 
 function add_element_to_back(element, arr) {
     const len = array_length(arr);
     arr[len] = element;
     return arr;
 }
+
+// add_element_to_back(3, [1, 2, 3, 4]);===> [1, 2, 3, 4, 3]
 
 --------------------------------------------------------------------------------
 
