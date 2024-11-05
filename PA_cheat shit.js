@@ -470,39 +470,48 @@ function BST_to_list(bst) {
 
 // take a list c and return a list of list combinations which the element will sum up to x
 
-// mcc(1, list(1, 2, 3, 4)) ===> list(list(1));
+// list_combiination_sum(1, list(1, 2, 3, 4)) ===> list(list(1));
 
-// mcc(5, list(1, 2, 3, 4)) ===> list(list(2, 3), list(1, 4));
+// list_combination_sum(5, list(1, 2, 3, 4)) ===> list(list(2, 3), list(1, 4));
 
-function mcc(x, c) {
-    if (x === 0) {
+function list_combination_sum(sum, c) {
+    if (sum === 0) {
         return list(null);
-    } else if (x < 0 || is_null(c)) {
+    } else if (sum < 0 || is_null(c)) {
         return null;
     } else {
-        const A = mcc(x, tail(c));
-        const B = mcc(x - head(c), tail(c));
-        const C = map(x => pair(head(c), x), B);
+        const A = list_combination_sum(sum, tail(c));
+        const B = list_combination_sum(sum - head(c), tail(c));
+        const C = map(sum => pair(head(c), sum), B);
         return append(A, C);
     }
 }
 
 --------------------------------------------------------------------------------
 
-// Sum(odd rank, even rank)
-function sums(xs) {
+// Sum(take a list and return a list with first element to be even rank sum, and second to be old rank sum) (list rank starts from 0)
+
+// sum_even_old(list(1, 2, 3, 4)) ===> list(4, 6);
+
+function sum_even_old(xs) {
     if (is_null(xs)) {
         return list(0, 0);
     } else if (is_null(tail(xs))) {
         return list(head(xs), 0);
     } else {
-        const wish = sums(tail(tail(xs)));
+        const wish = sum_even_old(tail(tail(xs)));
         return list(head(xs) + head(wish), head(tail(xs)) + head(tail(wish)));
     }
 }
 
+sum_even_old(b);
+
 --------------------------------------------------------------------------------
-// Remove Duplicates
+
+// Remove Duplicates in list 
+
+// remove_duplicates(list(1,1,3,4,4,5)) ===> list(1, 3, 4, 5)
+
 function remove_duplicates(lst) {
     return is_null(lst) ?
         null :
@@ -520,6 +529,7 @@ function remove_duplicates(lst) {
         null, lst);
 }
 
+--------------------------------------------------------------------------------
 // Array Functions
 function accum_array(op, init, A) {
     let x = init;
