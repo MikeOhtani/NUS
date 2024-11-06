@@ -690,7 +690,7 @@ function append_array(arr1, arr2) {
         
 --------------------------------------------------------------------------------
 
-// take whatever Array arr and return a reversed version 
+// take whatever Array arr and return a new reversed version without changing the original Array structure
 function arr_reverse(arr) {
     const reversed_arr = [];
     const len = array_length(arr);
@@ -705,6 +705,8 @@ function arr_reverse(arr) {
 // arr_reverse([1, 2, [1, 2], 4, [2, [2, 4]]]) ===> [[2, [2, 4]], 4, [1, 2], 2, 1]
 
 --------------------------------------------------------------------------------
+
+// take an Array arr and return a reversed which is the original Array but its structure is changed
 function d_arr_reverse(arr) {
     const len = array_length(arr);
     for (let i = 0; i < len / 2; i = i + 1) {
@@ -715,16 +717,26 @@ function d_arr_reverse(arr) {
     return arr;
 }
 
+// d_arr_reverse([1, 2, 3, 4]) ===> [4, 3, 2, 1]
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 // Tree Functions
+
+// taking a tree structure and making adjustment to every element to achieve purposess of sum, times or substraction
 function accumulate_tree(f, op, initial, tree) {
-    function accum(x, y) {
-        return is_list(x) ?
-            accumulate_tree(f, op, y, x) :
-            op(f(x), y);
-    }
-    return accumulate(accum, initial, tree);
+    return accumulate((x, ys) => !is_list(x)
+                               ? op(f(x), ys)
+                               : op(accumulate_tree(f, op, initial, x), ys),
+                      initial,
+                      tree );
 }
 
+//accumulate_tree(x => x, (x, y) => x + y, 0, list(list(0, 6, 3), list(8, 6, 10), list(5, 1, 25))) =====> 64(sum up all the element in the list)
+
+--------------------------------------------------------------------------------
+
+// taking a list and return a filtered version of it which the structure is changed completely instead of returning a new list.
 function d_filter(pred, xs) {
     if (is_null(xs) {
             return xs;
@@ -736,6 +748,9 @@ function d_filter(pred, xs) {
     }
 }
 
+--------------------------------------------------------------------------------
+
+// taking 
 function map_tree(f, tree) {
     return map(sub_tree =>
         !is_list(sub_tree) ?
