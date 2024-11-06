@@ -12,6 +12,10 @@ for (let r = 0; r < rows; r = r + 1) {
     }
 }
 --------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+// sorting_function
+
+
 //Binary Search (taking Array A and integer v, to search whether v is inside Array A)- For 1D Array only (Recursion) 
 
 function binary_search(A, v) {
@@ -67,7 +71,6 @@ function insertion_sort(xs) { // Main function to be called
         insert(head(xs), insertion_sort(tail(xs)));
 }
 
---------------------------------------------------------------------------------
 // Insection Sort (1D Array) 
 
 // Swap for Array position 
@@ -105,6 +108,7 @@ function insertion_sort2(A) {
 }
 
 --------------------------------------------------------------------------------
+
 // Merge Sort (List)
 function middle(n) {
     return math_floor(n / 2);
@@ -144,6 +148,7 @@ function merge_sort(xs) {
         return merge(merge_sort(take(xs, mid)), merge_sort(drop(xs, mid)));
     }
 }
+
 --------------------------------------------------------------------------------
 
 // Merge Sort (Array)
@@ -338,6 +343,7 @@ const fib = (n => n === 0 ? 0
                 : fib(n - 1) + fib(n - 2));
 
 ---------------------------------------------------------------------------------
+
 // Coins - combination (Memoization) (finding how many coins combination to reach the amount based on the given coin types)
 
 function read(n, k) {
@@ -375,6 +381,8 @@ function mcc(n, k) {
 
 
 --------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+// List_function
 
 // Subsets (return all the subset starting from last element in the list then to the front.)
 function subsets(xs) {
@@ -569,7 +577,7 @@ function filter_array(pred, A) {
 
 // Array-copying function 
 
-// take an 1D array A and return a new array B which has the same elements in A.
+// take an 1D array A and return a new array B which has the same elements in A ( A is not changing).
 
 function copy_array(A) {
     const len = array_length(A);
@@ -721,7 +729,7 @@ function d_arr_reverse(arr) {
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-// Tree Functions
+// tree_functions
 
 // taking a tree structure and making adjustment to every element to achieve purposess of sum, times or substraction
 function accumulate_tree(f, op, initial, tree) {
@@ -750,7 +758,7 @@ function d_filter(pred, xs) {
 
 --------------------------------------------------------------------------------
 
-// taking 
+// taking a function and a tree, then apply the function to every element of the tree.
 function map_tree(f, tree) {
     return map(sub_tree =>
         !is_list(sub_tree) ?
@@ -758,20 +766,40 @@ function map_tree(f, tree) {
         map_tree(f, sub_tree), tree);
 }
 
+
+// scaling every element in the tree by map_tree 
 function scale_tree(tree, k) {
     return map_tree(data_item =>
         data_item * k, tree);
 }
 
+
+// summing up every element in the tree by accumulate_tree (line 735)
 function tree_sum(tree) {
     return accumulate_tree(x => x,
         (x, y) => x + y, 0, tree);
 }
 
+
+// counting the number of elements inside the tree.
 function count_data_items(tree) {
+    
+    function accumulate_tree(f, op, initial, tree) {
+    return accumulate((x, ys) => !is_list(x)
+                               ? op(f(x), ys)
+                               : op(accumulate_tree(f, op, initial, x), ys),
+                      initial,
+                      tree );
+}
     return accumulate_tree(x => 1,
         (x, y) => x + y, 0, tree);
 }
+
+// count_data_items(list(list(1, 2), list(list(1, 2, 3)))) ===> 5 (number of elements in the tree is 5)
+--------------------------------------------------------------------------------
+
+// changing tree with nested list to the similiar Array with nested array 
+// where each extra list will form one extra [] outside the element 
 
 function tree_to_arraytree(xs) {
     if (is_number(xs)) {
@@ -790,6 +818,13 @@ function tree_to_arraytree(xs) {
     }
 }
 
+// tree_to_arraytree(list(list(1, 2), list(list(1, 2, 3)))) ===> [[1, 2], [[1, 2, 3]]]
+
+--------------------------------------------------------------------------------
+
+// changing Array with nested Array to the similiar list with nested list 
+// where each extra Array will form one extra list outside the element. 
+
 function arraytree_to_tree(a) {
     if (is_number(a)) {
         return a;
@@ -803,14 +838,62 @@ function arraytree_to_tree(a) {
     }
 }
 
+// display_list(arraytree_to_tree([1, 2, [[3, 4]], [5, [6]]])) ===> list(1, 2, list(list(3, 4)), list(5, list(6)))
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 // Stream_function
+
+// infinite stream starting from 1:
+
+const integers = integers_from(1);
+
+--------------------------------------------------------------------------------
+
+// infinite stream of 1, 1, 2, 1, 2, 3, 1, 2, 3, 4
+
+function more_and_more_1() {
+    function helper(a, b) {
+        return a > b
+             ? helper(1, b + 1) 
+             : pair(a, () => helper(a + 1, b));
+    }
+    return helper(1, 1);
+}
+
+const more_1 = more_and_more_1() ;
+
+--------------------------------------------------------------------------------
+
+// infinite stream of 1, 2, 2, 3, 3, 3, 4, 4, 4, 4
+
+function more_and_more_2() {
+    function helper(a, b) {
+        return a > b
+             ? helper(1, b + 1) 
+             : pair(b, () => helper(a + 1, b));
+    }
+    return helper(1, 1);
+}
+
+const more_2 = more_and_more_2();
+
+--------------------------------------------------------------------------------
+
+// taking a stream and return a infinite stream which takes one element and skip the next element of the input stream infinitely.
+
 function every_other(s) {
     return pair(head(s), () => every_other(stream_tail(
         stream_tail(s))));
 }
+
+// display_list(eval_stream(every_other(integers), 10)); ===> list(0, 2, 4, 6, 8, 10, 12, 14, 16, 18) (input stream starts from 0);
+
+// display_list(eval_stream(every_other(integers), 10)); ===> list(1, 3, 5, 7, 9, 11, 13, 15, 17, 19) (input stream starts from 1)
+
+--------------------------------------------------------------------------------
+
+// take a stream and return a infinite stream which odd element is positive while even element is negative
 
 function make_alternating_stream(s) {
     return pair(head(s),
@@ -818,20 +901,63 @@ function make_alternating_stream(s) {
             stream_tail(s))));
 }
 
-function list_to_inf_stream(xs) {
+// display_list(eval_stream(make_alternating_stream(integers), 10)); ===> list(1, -2, 3, -4, 5, -6, 7, -8, 9, -10)
+
+--------------------------------------------------------------------------------
+
+// taking a list and return a finite stream which repeats the list elements once
+
+function list_to_finite_stream(xs) {
     function inner(ys) {
-        if (is_null(ys) {
-                return inner(ys);
-            } else {
-                return
-                pair(head(ys), () => inner(tail(ys)));
-            }
+        if (is_null(ys)) {
+            return null;
+        } else {
+            return pair(head(ys), () => inner(tail(ys)));
         }
-        return is_null(xs) ? null : inner(xs);
     }
+    return is_null(xs) ? null : inner(xs);
 }
 
-function powerS2(n) {
+// display_list(eval_stream(list_to_finite_stream(a), 4)); ===> list(1, 2, 3, 4) 
+
+--------------------------------------------------------------------------------
+
+// taking a list and return an infinite stream which repeats the list elements infinitely
+
+function list_to_infinite_stream(xs) {
+    function inner(ys) {
+        if (is_null(ys)) {
+            return inner(xs);
+        } else {
+            return pair(head(ys), () => inner(tail(ys)));
+        }
+    }
+    return is_null(xs) ? null : inner(xs);
+}
+
+// display_list(eval_stream(list_to_infinite_stream(a), 8)); ===> list(1, 2, 3, 4, 1, 2, 3, 4) 
+
+--------------------------------------------------------------------------------
+                                                  
+// // taking a n which is the base of a power starting from 0 and return an infinite stream of exponentiation computation with base n
+
+function S2(n) {
+    let integers = integers_from(1);
+    return stream_map(x => 
+        math_pow(n, x - 1), integers);
+}
+
+// display_list(eval_stream(S2(5), 5)); //===> list(1, 5, 25, 125, 625)
+
+                                                  // 5^0, 5^1, 5^2, 5^3, 5^4
+                                                  
+--------------------------------------------------------------------------------
+
+// taking a n which is the base of a power starting from 0 and return an infinite stream of exponentiation computation with base n 
+
+// each round will time with an additional count which starts from 0 (count is adjustable)
+
+function count_times_S2(n) {
     function helper(count) {
         return pair(count * math_pow(n, count),
             () => helper(count + 1));
@@ -839,20 +965,21 @@ function powerS2(n) {
     return helper(0);
 }
 
-function S2(n) {
-    let integers = integers_from(1);
-    return stream_map(x => x *
-        math_pow(n, x - 1), integers);
-}
+// display_list(eval_stream(count_times_s2(5), 5)); //===> list(0, 5, 50, 375, 2500)
 
-function n_of_n_stream() {
-    function more2(a, b) {
-        return (a > b) ?
-            more2(1, 1 + b) :
-            pair(b, () => more2(a + 1, b));
-    }
-    return more2(1, 1);
-}
+                                                  // count(0) * 5^0, 
+                                                  // count(1) * 5^1, 
+                                                  // count(2) * 5^2, 
+                                                  // count(3) * 5^3, 
+                                                  // count(4) * 5^4
+                                                
+--------------------------------------------------------------------------------
+
+// taking a infinite stream starts from 2 which is the first prime number, and return an infinite stream with rest of the prime is_number
+
+// the infinite stream input cannot start from 1 which is not a prime number
+
+const integers = integers_from(2);
 
 function is_divisible(x, y) {
     return x % y === 0;
@@ -864,6 +991,12 @@ function sieve(s) {
             x => !is_divisible(x, head(s)),
             stream_tail(s))));
 }
+
+//display_list(eval_stream(sieve(integers), 10)); ===> list(2, 3, 5, 7, 11, 13, 17, 19, 23, 29)
+
+--------------------------------------------------------------------------------
+
+// take Array with or without nested array, and return a finite stream of all the elements in the stream.
 
 function array_to_stream(a) {
     function helper(count) {
@@ -877,7 +1010,18 @@ function array_to_stream(a) {
     return helper(0);
 }
 
-function loop_stream(s) {
+// display_list(eval_stream(array_to_stream([1, 2, [3, 4], [5, [6, 7]]]), 4)); ===> 
+
+                                     //list(1, 2, [3, 4], [5, [6, 7]]) stream which is converted by eval_stream.
+                                     
+                                     
+--------------------------------------------------------------------------------
+
+// takes a finite stream and return a infinite stream which repeats the finite stream input. 
+
+const finite_stream = enum_stream(1, 5);
+
+function loop_finite_stream(s) {
     function helper(p) {
         if (is_null(stream_tail(p))) {
             return pair(head(p), () => helper(s));
@@ -889,6 +1033,31 @@ function loop_stream(s) {
     return helper(s);
 }
 
+//display_list(eval_stream(loop_stream(finite_stream), 20)); //===> list(1, 2, 3, 4, 5, 1, 2, 3, 4, 5)
+
+--------------------------------------------------------------------------------
+
+// Taking a function and two streams s1 and s2, return a stream with element which 
+// is the result of applying the function on the elements of the two streams. 
+
+const integers = integers_from(1);
+
+function stream_combine(f, s1, s2) {
+    return pair(f(head(s1), head(s2)),
+        () => stream_combine(f,
+            stream_tail(s1), stream_tail(s2)));
+}
+
+// display_list(eval_stream(stream_combine((a, b) => a + b, integers, integers), 10)); 
+
+//                                         ===>list(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+//                                         (summing up the head of the two stream)
+
+
+
+// Same as stream_combine but different representation
+const integers = integers_from(1);
+
 function extend(bno) {
     return (x, y) =>
         pair(bno(head(x), head(y)),
@@ -896,11 +1065,12 @@ function extend(bno) {
                 stream_tail(y)));
 }
 
-function stream_combine(f, s1, s2) {
-    return pair(f(head(s1), head(s2)),
-        () => stream_combine(f,
-            stream_tail(s1), stream_tail(s2)));
-}
+// extend((a, b) => a + b)(integers, integers)
+
+--------------------------------------------------------------------------------
+
+// Taking a stream and an integer n, 
+// return a new stream with every nth element from the input stream
 
 function time_lapse(s, n) {
     function helper(count) {
@@ -911,6 +1081,13 @@ function time_lapse(s, n) {
     }
     return helper(0);
 }
+
+// display_list(eval_stream(time_lapse(integers, 3), 10)); ===> list(1, 4, 7, 10, 13, 16, 19, 22, 25, 28)
+
+--------------------------------------------------------------------------------
+
+// taking two streams s1 and s2, 
+// return a new stream which takes head of s1 first and then takes the head of s2 repeatedly.
 
 function zip_streams(s1, s2) {
     if (is_null(s1)) {
@@ -925,6 +1102,14 @@ function zip_streams(s1, s2) {
     }
 }
 
+//display_list(eval_stream(zip_streams(integers, integers), 10)); list(1, 1, 2, 2, 3, 3, 4, 4, 5, 5)
+
+--------------------------------------------------------------------------------
+
+// taking a stream s,
+// return a stream which first element is the same as the input stream while
+// the rest of the element is the sum up of the elements up to that element in the input stream 
+
 function partial_sums(s) {
     let a = head(s);
     return pair(a, () => stream_map(
@@ -932,9 +1117,20 @@ function partial_sums(s) {
             stream_tail(s))));
 }
 
+
+// display_list(eval_stream(integers, 10));               ====> list(1, 2, 3, 4, 5, 6)
+
+// display_list(eval_stream(partial_sums(integers), 10)); ====> list(1, 3, 6, 10, 15, 21)
+
+--------------------------------------------------------------------------------
+
+// taking a, b (usually 0, 1) to return a stream of fibonacci number.
+
 function fibgen(a, b) {
     return pair(a, () => fibgen(b, a + b));
 }
+
+// display_list(eval_stream(fibgen(0, 1), 10)); //===> list(0, 1, 1, 2, 3, 5, 8, 13, 21, 34)
 
 --------------------------------------------------------------------------------
 
@@ -964,6 +1160,10 @@ function more_and_more_2() {
 }
 
 --------------------------------------------------------------------------------
+
+// Take a infinite stream with an integer K
+
+// return a finite stream which has element of k
 function shorten_stream(s, k) {
     return k === 0 ?
         list() : is_null(s) ?
@@ -972,7 +1172,16 @@ function shorten_stream(s, k) {
                 k - 1));
 }
 
+// display_list(eval_stream(shorten_stream(integers, 10), 10)); ===> list(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 // Misc
+
+// taking an Array which represents matrix
+
+// return an Array which switch the rows and columns of the matrix. 
+
 function transpose(M) {
     const Tmatrix = [];
     const row = array_length(M);
@@ -985,6 +1194,14 @@ function transpose(M) {
     }
     return Tmatrix;
 }
+
+// transpose([[4, 5], 
+//            [7, 4],   ===>   [[4, 7, 3],
+//            [3, 2]]);         [5, 4, 2]]
+
+--------------------------------------------------------------------------------
+
+// rotate the square-matrix-array (2 x 2, 3 x 3) 90 degrees clockwise
 
 function rotate_matrix(M) {
     const n = array_length(M);
@@ -1005,8 +1222,18 @@ function rotate_matrix(M) {
             swap(r, c, r, n - c - 1);
         }
     }
+    return M;
 }
 
+//rotate_matrix([[1, 2, 3],          //[[7, 4, 1],
+               //[4, 5, 6],   //===> //[[8, 5, 2],
+               //[7, 8, 9]]);         //[9, 6, 3]]
+                             
+--------------------------------------------------------------------------------
+
+// taking a list,
+
+// return a reverse version of it by completely changing the structure of the list with set_tail.
 function mutable_reverse(xs) {
     if (is_null(xs)) {
         return xs;
@@ -1020,6 +1247,10 @@ function mutable_reverse(xs) {
         return temp;
     }
 }
+
+--------------------------------------------------------------------------------
+
+// take a list and return a list which repeated itself infinitely
 
 function make_circular(xs) {
     function inner(zs, ys) {
@@ -1038,6 +1269,9 @@ function make_circular(xs) {
     }
 }
 
+
+// return a repeated list back to normal list 
+
 function make_linear(xs) {
     function inner(ys) {
         if (tail(ys) === xs) {
@@ -1052,6 +1286,10 @@ function make_linear(xs) {
     return xs;
 }
 
+--------------------------------------------------------------------------------
+
+// Whether the two list is equal.
+
 function are_equal_sets(set1, set2) {
     if (length(set1) !== length(set2)) {
         return false;
@@ -1063,6 +1301,8 @@ function are_equal_sets(set1, set2) {
             y1, true, set1);
     }
 }
+
+--------------------------------------------------------------------------------
 
 // Computation of b to the power of n (n must be an integer)
 
@@ -1084,7 +1324,9 @@ function fast_expt (b, n) {
          ? square(fast_expt (b, n/ 2))
          : b * fast_expt (b, n - 1);
 }
-fast_expt(2, -1);
+// fast_expt(2, -1);
+
+--------------------------------------------------------------------------------
 
 // Pascal Number: (each number inside the triangle is the sum of the number above it)
 e.g :                           1
