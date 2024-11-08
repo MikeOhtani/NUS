@@ -152,9 +152,80 @@ undefined
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
-// PA
+// PA2 
+// Task 1A:
+function delta_encode(L) {
+    
+        function helper(xs) {
+        return is_null(tail(xs))
+             ? null
+             : pair((head(tail(xs)) - head(xs)), helper(tail(xs)));
+    }
+    // WRITE YOUR SOLUTION HERE.
+    if (is_null(L)) {
+        return null;
+    } else if (length(L) < 2) {
+        return L;
+    } else {
+        return pair(head(L), helper(L));
+    }
+}
+
+display_list(delta_encode(list(3,4,6,-2,-2)));
 --------------------------------------------------------------------------------
+
+// PA2 Task 1B
+
+function delta_decode(D) {
+
+    // WRITE YOUR SOLUTION HERE.
+    function helper(sum, xs) {
+        return is_null(xs)
+             ? null
+             : pair(sum + head(xs), helper(sum + head(xs), tail(xs)));
+        }
+        
+    if (is_null(D)) {
+        return null;
+    } else if (length(D) < 2) {
+        return D;
+    } else {
+        return pair(head(D), helper(3, tail(D)));
+    }
+}
+
+display_list(delta_decode(list(3,1,2,-8,0)));
+
 --------------------------------------------------------------------------------
+
+//PA2 Task 2B
+
+function runlength_decode(R) {
+
+    // WRITE YOUR SOLUTION HERE.
+    function helper_decode(xs, count){
+        if (is_null(xs)) {
+            return null;
+        } else if (is_pair(head(xs))) {
+            if(count < tail(head(xs))) {
+                return pair(head(head(xs)), helper_decode(xs, count + 1));
+            }
+            else {
+                return pair(head(head(xs)), helper_decode(tail(xs), 1));
+            }
+        } else {
+            return pair(head(xs), helper_decode(tail(xs), 1));
+        }
+    }
+    
+    if(is_null(R)) {
+        return null;
+    } else {
+        return helper_decode(R, 1);
+    }
+}
+
+display_list(runlength_decode(list(6, [5,2], 9, [7,2], [5,3])));
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
