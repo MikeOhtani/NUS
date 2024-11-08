@@ -1,6 +1,4 @@
 
-
-
 -------Property check function:--------
 is_array
 is_boolean
@@ -29,12 +27,32 @@ list_to_stream
 list_to_string
 strin
 ----data location function----:
+
+member //( return null, if didnt find the element in the list; otherwise, return the wanted list which starts with the seraching element)  
+//      member(1, list(1, 2, 3)) ===> return list(1, 2, 3)
+//      member(2, list(1, 2, 3));
+
+remove 
+remove_all
 char_at
 eval_stream
 list_ref
 append
+set_head
+set_tail
+stream_append
+stream_filter
+stream_map
+stream_member
+stream_ref
+stream_remove
+stream_remove_all
+stream_reverse
+stream_tail
+stringify
 
 -------math function:--------
+
 math_abs
 math_ceil
 math_cos
@@ -50,32 +68,8 @@ math_random
 math_round
 math_sin
 math_sqrt
-member
-pair
-parse
-parse_int
-prompt
-remove
-remove_all
-reverse
-set_head
-set_tail
 stream
-stream_append
-stream_filter
-stream_for_each
-stream_map
-stream_member
-stream_ref
-stream_remove
-stream_remove_all
-stream_reverse
-stream_tail
-stream_to_list
-stringify
-tokenize
-undefined
-*/
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 // PA1 Task 1A:
@@ -147,7 +141,6 @@ function sum_k_list(klist) {
 
 function map_k_list(f, klist) {
 
-    // WRITE YOUR SOLUTION HERE.
     function map_tree(f, tree) {
         return map(sub_tree =>
                   !is_list(sub_tree)
@@ -161,16 +154,15 @@ function map_k_list(f, klist) {
 --------------------------------------------------------------------------------
 
 // PA2 
-// Task 1A:
+// Task 1A: (subtraction of list element)
 
 function delta_encode(L) {
     
-        function helper(xs) {
-        return is_null(tail(xs))
-             ? null
-             : pair((head(tail(xs)) - head(xs)), helper(tail(xs)));
+    function helper(xs) {
+    return is_null(tail(xs))
+         ? null
+         : pair((head(tail(xs)) - head(xs)), helper(tail(xs)));
     }
-    // WRITE YOUR SOLUTION HERE.
     if (is_null(L)) {
         return null;
     } else if (length(L) < 2) {
@@ -198,7 +190,6 @@ function delta_encode(L) {
              ? null
              : pair((head(tail(xs)) - head(xs)), helper(tail(xs)));
     }
-    // WRITE YOUR SOLUTION HERE.
     if (is_null(L)) {
         return null;
     } else {
@@ -215,7 +206,6 @@ function delta_encode(L) {
 
 function runlength_encode(L) {
 
-    // WRITE YOUR SOLUTION HERE.
     function encode(val, count, next) {
         return is_null(next)
              ? list(count === 1 ? val : pair(val, count))
@@ -238,7 +228,6 @@ function runlength_encode(L) {
 
 function runlength_decode(R) {
 
-    // WRITE YOUR SOLUTION HERE.
     function helper_decode(xs, count){
         if (is_null(xs)) {
             return null;
@@ -267,10 +256,9 @@ function runlength_decode(R) {
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-//PA3 Task 1A
+//PA3 Task 1A (find element inside the list or not)
 function is_pa_word(s) {
-    // function is_pa_word(s) {
-    // your solution goes here
+
     const pa_length = length(pa_words);
     let existence = false;
     for (let i = 0; i < pa_length; i = i + 1) {
@@ -281,7 +269,6 @@ function is_pa_word(s) {
         } 
     }return existence;
 }
-
 
 function is_pa_word(s) {
     function helper(pa, cur) {
@@ -295,11 +282,20 @@ function is_pa_word(s) {
     }
     return helper(pa_words, s);
 }
+
+// easier way to find whether a element is inside the list.
+function is_pa_word(s) {
+
+    return !is_null(member(s, pa_words));
+}
+
+
 --------------------------------------------------------------------------------
 
-//PA Task 1B
+//PA 3 Task 1B (filter out the the element inside the list which does not has the char at the given position)
+
 function count_matches(char, pos) {
-    // your solution goes here
+    
     if (char === undefined) {
         return false;
     } else {
@@ -307,18 +303,24 @@ function count_matches(char, pos) {
     }
 }
 
+// count_matches("y", 26) === 1 (since this condition only appears once).
+
 --------------------------------------------------------------------------------
 
 //PA 3 Task 1C
-// your helper functions go here
+
 function stream_string(s, count) {
-    return pair(char_at(s, count), () => stream_string(s, count + 1));
+    const c = char_at(s, count);
+    return is_null(c)
+         ? null 
+         : pair(c, () => stream_string(s, count + 1));
 }
 
 function char_stream(s) {
     // your solution goes here
-    return pair(char_at(s, 0), () => stream_string(s, 1));
+    return stream_string(s, 0);
 }
+
 
 --------------------------------------------------------------------------------
 
