@@ -1,5 +1,6 @@
 
 -------Property check function:--------
+
 is_array
 is_boolean
 is_function
@@ -13,11 +14,13 @@ is_undefined
 equal
 
 -------length function:---------
+
 array_length
 length
 stream_length
 
 ------data creation function:-------
+
 build_list
 build_stream
 enum_list 
@@ -25,21 +28,27 @@ enum_stream
 integers_from // stream 
 list_to_stream
 list_to_string
-strin
+
 ----data location function----:
 
-member //( return null, if didnt find the element in the list; otherwise, return the wanted list which starts with the seraching element)  
+member // return null, if didnt find the element in the list; otherwise, return the wanted list which starts with the seraching element
 //      member(1, list(1, 2, 3)) ===> return list(1, 2, 3)
-//      member(2, list(1, 2, 3));
+//      member(2, list(1, 2, 3)) ===> return list(2, 3);
 
-remove 
-remove_all
+remove // remove the first unwanted element in the list
+//     remove(1, list(1, 2, 3)) ===> list(2, 3)
+
+remove_all // remove all the unwanted element in the list
+//     remove(1, list(1, 2, 1, 3, 1) ===> list(2, 3);
+
 char_at
 eval_stream
 list_ref
 append
+
 set_head
 set_tail
+
 stream_append
 stream_filter
 stream_map
@@ -72,6 +81,7 @@ stream
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
+
 // PA1 Task 1A:
 
 // const klist0 = 234;  // k-list of depth 0
@@ -292,7 +302,7 @@ function is_pa_word(s) {
 
 --------------------------------------------------------------------------------
 
-//PA 3 Task 1B (filter out the the element inside the list which does not has the char at the given position)
+//PA 3 Task 1B (filter out the the element inside the list which does not has the char at the given position, and return )
 
 function count_matches(char, pos) {
     
@@ -307,7 +317,7 @@ function count_matches(char, pos) {
 
 --------------------------------------------------------------------------------
 
-//PA 3 Task 1C
+//PA 3 Task 1C (return a stream which takes character of a string as head)
 
 function stream_string(s, count) {
     const c = char_at(s, count);
@@ -326,13 +336,12 @@ function char_stream(s) {
 
 //PA 3 Task 1D:
 
-// apply accumulate two filters to every elements.
+// apply accumulate two filters to every elements (filter the list inside a list).
 function solve(n, constraints) {
 return accumulate((x, y) => filter(s => char_at(s, head(x)) === tail(x), y),
         filter(s => string_length(s) === n, pa_words),
         constraints);
 }
-
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -354,38 +363,38 @@ function split(S) {
 
 --------------------------------------------------------------------------------
 
-// // TASK 1B：
+// PA 4 TASK 1B：
 
-// // method 1 (count approach):
+// method 1 (count approach):
 
-// function helper_count(Arr1, Arr2, count) {
+function helper_count(Arr1, Arr2, count) {
     
-//     const len1 = array_length(Arr1);
-//     const len2 = array_length(Arr2);
+    const len1 = array_length(Arr1);
+    const len2 = array_length(Arr2);
     
-//     for (let i = 0; i < len1; i = i + 1) {
-//         for (let k = 0; k < len2; k = k + 1) {
-//             if(Arr1[i] === Arr2[k]) {
-//                 count = count + 1;
-//             }
-//         }
-//     }return count;
-// }
-// // array length is always 1 more than the index. 
+    for (let i = 0; i < len1; i = i + 1) {
+        for (let k = 0; k < len2; k = k + 1) {
+            if(Arr1[i] === Arr2[k]) {
+                count = count + 1;
+            }
+        }
+    }return count;
+}
+// array length is always 1 more than the index. 
 
-// function num_characters_from(A, B) {
+function num_characters_from(A, B) {
     
-//     // WRITE YOUR SOLUTION HERE.
-//     if (array_length(A) === 0 || array_length(B) === 0){
-//         return 0;
-//     } else if (array_length(A) > array_length(B)) {
-//         return helper_count(A, B, 0);
-//     }
-// }
+    // WRITE YOUR SOLUTION HERE.
+    if (array_length(A) === 0 || array_length(B) === 0){
+        return 0;
+    } else if (array_length(A) > array_length(B)) {
+        return helper_count(A, B, 0);
+    }
+}
 
 --------------------------------------------------------------------------------
 
-// TASK 1C
+// PA 4 TASK 1C
 
 // You may write helper functions here.
 function helper(Arr1, count){
@@ -424,6 +433,8 @@ function num_unique(A) {
 num_unique(["o", "c", "c", "u", "r", "r", "e", "n", "c", "e"]);
 
 --------------------------------------------------------------------------------
+
+// PA 4 Task 1D
 
 
 --------------------------------------------------------------------------------
@@ -912,6 +923,34 @@ function BST_to_list(bst) {
     }
 }
 
+function is_empty_tree(bst) {
+    return is_null(bst);
+}
+
+function is_tree(bst) {
+    return is_list(bst);   
+}
+
+function left_branch(bst) {
+    return list_ref(bst, 1);    
+}
+
+function entry(bst) {
+    return is_null(bst) ? bst : head(bst);
+}
+
+function right_branch(bst) {
+    return list_ref(bst, 2);
+}
+
+function make_empty_tree() {
+    return null;
+}
+
+function make_tree(value, left, right) {
+    return list(value, left, right);
+}
+
 --------------------------------------------------------------------------------
 
 // take a list c and return a list of list combinations which the element will sum up to x
@@ -1119,6 +1158,16 @@ function flatten_array(arr) {
          
 --------------------------------------------------------------------------------
 
+function flatten_binary_tree: （PA 4 Qn6)
+
+function flatten_bin_tree(T) {
+    return is_null(T)
+    ? null
+    : append(flatten_bin_tree(list_ref(T, 1)),
+    pair(head(T), flatten_bin_tree(list_ref(T, 2))));
+}
+
+--------------------------------------------------------------------------------
 // take two whatever Arrays arr1 and arr2, and return a 1D Array which takes all elements from arr1 first and arr2 after.
 function append_array(arr1, arr2) {
     let final = [];
@@ -1780,4 +1829,5 @@ function Pascal (row, position) {
 }
 
 */
+
 
