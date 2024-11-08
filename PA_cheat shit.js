@@ -348,7 +348,7 @@ return accumulate((x, y) => filter(s => char_at(s, head(x)) === tail(x), y),
 
 //PA 4 Task 1A"
 
-function split(S) {
+function split(S) { // put characters in an array
     
     // WRITE YOUR SOLUTION HERE.
     if (!is_string(S)){
@@ -394,58 +394,30 @@ function num_characters_from(A, B) {
 
 --------------------------------------------------------------------------------
 
-// PA 4 TASK 1C
-
-// You may write helper functions here.
-function helper(Arr1, count){
-    const Arr_len = array_length(Arr1);
-    let occurrence = false;
-    
-    for (let i = 0; i < Arr_len; i = i + 1) {
-        
-        let head_arr = Arr1[i];
-        
-        for (let k = 0; k < Arr_len - i; k = k + 1){
-            if(head_arr === occurrence) {
-                occurrence = head_arr;
-                break;
-            }
-            else if(head_arr === Arr1[i] ) {
-                occurrence = head_arr;
-                count = count + 1;
-            }
-        }
-    }return count;
-}
-
+// PA 4 TASK 1C (return the time that the occurrence of unique element in the array )
 
 function num_unique(A) {
-
-    // WRITE YOUR SOLUTION HERE.
-    if(array_length(A) === 0) {
-        return 0;
-    } else {
-        return helper(A, 0);
+    const len = array_length(A);
+    let count = 0;
+    for (let i = 0; i < len; i = i + 1) {
+        let last_occurrence = true;
+        for (let j = i + 1; j < len; j = j + 1) {
+            if (A[j] === A[i]) {
+                last_occurrence = false;
+            }
+        }
+        if (last_occurrence) {
+            count = count + 1;
+        }
     }
-
+    return count;
 }
 
-num_unique(["o", "c", "c", "u", "r", "r", "e", "n", "c", "e"]);
-
---------------------------------------------------------------------------------
-
-// PA 4 Task 1D
-
+//num_unique(["o", "c", "c", "u", "r", "r", "e", "n", "c", "e"]);
+// returns 6
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-// 
 /* 
 // 2D Array Sample For Loop
 let array = [
