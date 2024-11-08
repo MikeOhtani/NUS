@@ -124,7 +124,10 @@ function make_k_list(k, d) {
 
 --------------------------------------------------------------------------------
 
-//PA1 Task 1B:
+//PA1 Task 1B (Accumulate_tree):
+
+// const klistB = list(list(0, 6, 3), list(8, 6, 10), list(5, 1, 25));
+// sum_k_list(klistB); // returns 64
 
 function sum_k_list(klist) {
 
@@ -140,7 +143,8 @@ function sum_k_list(klist) {
 
 --------------------------------------------------------------------------------
 
-// //PA1 Task 1C
+// //PA1 Task 1C (Map_tree application for tree structure)
+
 function map_k_list(f, klist) {
 
     // WRITE YOUR SOLUTION HERE.
@@ -154,21 +158,11 @@ function map_k_list(f, klist) {
 }
 
 --------------------------------------------------------------------------------
-
-//PA1 Task 2
-function route_distance(mat, route) {
-
-    // WRITE YOUR SOLUTION HERE.
-    return is_null(tail(route))
-         ? 0
-         : mat[head(route)][head(tail(route))] + route_distance(mat, tail(route));
-}
-
-
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
+
 // PA2 
 // Task 1A:
+
 function delta_encode(L) {
     
         function helper(xs) {
@@ -186,30 +180,54 @@ function delta_encode(L) {
     }
 }
 
-display_list(delta_encode(list(3,4,6,-2,-2)));
+// delta_encode(list(3,4,6,-2,-2)) (head is the same while the next element is the substraction of previous element from current)
+//      returns list(3,1,2,-8,0)
+
 --------------------------------------------------------------------------------
 
-// PA2 Task 1B
+// PA2 Task 1B (partial sum for list):
 
-function delta_decode(D) {
+// which first element is the same as the input list while
+// the rest of the element is the sum up of the elements up to that element in the input stream 
+
+function delta_encode(L) {
 
     // WRITE YOUR SOLUTION HERE.
-    function helper(sum, xs) {
-        return is_null(xs)
+        function helper(xs) {
+        return is_null(tail(xs))
              ? null
-             : pair(sum + head(xs), helper(sum + head(xs), tail(xs)));
-        }
-        
-    if (is_null(D)) {
+             : pair((head(tail(xs)) - head(xs)), helper(tail(xs)));
+    }
+    // WRITE YOUR SOLUTION HERE.
+    if (is_null(L)) {
         return null;
-    } else if (length(D) < 2) {
-        return D;
     } else {
-        return pair(head(D), helper(3, tail(D)));
+        return pair(head(L), helper(L));
     }
 }
 
-display_list(delta_decode(list(3,1,2,-8,0)));
+// delta_decode(list(3,1,2,-8,0)）
+//       return list(3,4,6,-2,-2)
+     
+--------------------------------------------------------------------------------
+
+//PA2 Task 2A
+
+function runlength_encode(L) {
+
+    // WRITE YOUR SOLUTION HERE.
+    function encode(val, count, next) {
+        return is_null(next)
+             ? list(count === 1 ? val : pair(val, count))
+             : head(next) === val
+             ? encode(val, count + 1, tail(next))
+             : pair(count === 1 ? val : pair(val, count),
+                    encode(head(next), 1, tail(next)));
+    } return is_null(L)
+           ? null
+           : encode(head(L), 1, tail(L));
+}
+
 
 --------------------------------------------------------------------------------
 
@@ -241,6 +259,7 @@ function runlength_decode(R) {
 }
 
 display_list(runlength_decode(list(6, [5,2], 9, [7,2], [5,3])));
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
