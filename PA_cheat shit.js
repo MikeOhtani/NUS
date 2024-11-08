@@ -228,9 +228,72 @@ function runlength_decode(R) {
 display_list(runlength_decode(list(6, [5,2], 9, [7,2], [5,3])));
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
+
+//PA3 Task 1A
+function is_pa_word(s) {
+    // function is_pa_word(s) {
+    // your solution goes here
+    const pa_length = length(pa_words);
+    let existence = false;
+    for (let i = 0; i < pa_length; i = i + 1) {
+    
+        if(s === list_ref(pa_words, i)) {
+            existence = true;
+            break;
+        } 
+    }return existence;
+}
+
+
+function is_pa_word(s) {
+    function helper(pa, cur) {
+        if (is_null(pa)) {
+            return false;
+        } else if (s === head(pa)) {
+            return true;
+        } else {
+            return helper(tail(pa), s);
+        }
+    }
+    return helper(pa_words, s);
+}
 --------------------------------------------------------------------------------
+
+//PA Task 1B
+function count_matches(char, pos) {
+    // your solution goes here
+    if (char === undefined) {
+        return false;
+    } else {
+        return length(filter(x => char_at(x, pos) === char, pa_words));
+    }
+}
+
 --------------------------------------------------------------------------------
+
+//PA 3 Task 1C
+// your helper functions go here
+function stream_string(s, count) {
+    return pair(char_at(s, count), () => stream_string(s, count + 1));
+}
+
+function char_stream(s) {
+    // your solution goes here
+    return pair(char_at(s, 0), () => stream_string(s, 1));
+}
+
 --------------------------------------------------------------------------------
+
+//PA 3 Task 1D:
+
+// apply accumulate two filters to every elements.
+function solve(n, constraints) {
+return accumulate((x, y) => filter(s => char_at(s, head(x)) === tail(x), y),
+        filter(s => string_length(s) === n, pa_words),
+        constraints);
+}
+
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
