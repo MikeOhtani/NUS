@@ -305,11 +305,11 @@ function split(S) {
     if (!is_string(S)){
         return [];
     }else {
-        let new_arr = [];
-        for (let i = 0; char_at(S, i) !== undefined; i = i + 1) {
-            new_arr[i] = char_at(S, i);
-    }return new_arr;
-}
+    let new_arr = [];
+    for (let i = 0; char_at(S, i) !== undefined; i = i + 1) {
+        new_arr[i] = char_at(S, i);
+        }return new_arr;
+    }
 }
 
 --------------------------------------------------------------------------------
