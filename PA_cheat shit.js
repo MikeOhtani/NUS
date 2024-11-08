@@ -1,3 +1,84 @@
+
+
+
+-------Property check function:--------
+is_array
+is_boolean
+is_function
+is_list
+is_null
+is_number
+is_pair
+is_stream
+is_string
+is_undefined
+equal
+
+-------length function:---------
+array_length
+length
+stream_length
+
+------data creation function:-------
+build_list
+build_stream
+enum_list 
+enum_stream
+integers_from // stream 
+list_to_stream
+list_to_string
+strin
+----data location function----:
+char_at
+eval_stream
+list_ref
+append
+
+-------math function:--------
+math_abs
+math_ceil
+math_cos
+math_exp
+math_floor
+math_fround
+math_log
+math_max
+math_min
+math_PI
+math_pow
+math_random
+math_round
+math_sin
+math_sqrt
+member
+pair
+parse
+parse_int
+prompt
+remove
+remove_all
+reverse
+set_head
+set_tail
+stream
+stream_append
+stream_filter
+stream_for_each
+stream_map
+stream_member
+stream_ref
+stream_remove
+stream_remove_all
+stream_reverse
+stream_tail
+stream_to_list
+stringify
+tokenize
+undefined
+*/
+
+
+/* 
 // 2D Array Sample For Loop
 let array = [
     [1, 2, 3],
@@ -402,8 +483,8 @@ function subsets(xs) {
                                      list(1), 
                                      list(1, 2), 
                                      list(1, 3), 
-                                     list(1, 2, 3)) */
-                                     
+                                     list(1, 2, 3)) 
+       
 --------------------------------------------------------------------------------
 
 // Subsets_2
@@ -540,7 +621,8 @@ function remove_duplicates(lst) {
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 // Array_functions
-function accum_array(op, init, A) {
+
+function accumulate_array(op, init, A) {
     let x = init;
     for (let i = init; i < array_length(A); i = i + 1) { 
         x = op(x, A[i]);
@@ -548,7 +630,7 @@ function accum_array(op, init, A) {
     return x;
 }
 
-// accum_array((x, y) => x + y, 0, [1, 2, 3, 4]) ======> 10 ( sum of all element in the array)
+// accumulate_array((x, y) => x + y, 0, [1, 2, 3, 4]) ======> 10 ( sum of all element in the array)
 
 --------------------------------------------------------------------------------
 
