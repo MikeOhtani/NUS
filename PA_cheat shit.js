@@ -80,74 +80,89 @@ undefined
 --------------------------------------------------------------------------------
 // PA1 Task 1A:
 
-// function make_k_list(k, d) {
-//     if (d === 0) {
-//     return 0;
-//     } else {
-//     let klist = null;
-//     for (let i = 0; i < k; i = i + 1) {
-//     klist = pair(make_k_list(k, d - 1), klist);
-//     }
-//     return klist;
-//     }
-// }
+// const klist0 = 234;  // k-list of depth 0
 
-// function make_k_list(k, d) {
-//     if(d === 0) {
-//         return 0;
-//     } else if (k === 0) {
-//         return null;
-//     } else {
-        
-//         const k_list = pair(0, make_k_list(k - 1, d));
-//         return map(x => make_k_list(k, d - 1), k_list);
-        
-//     }
-// }
+// const klistA = list(0, 6, 3, 1);  // k-list of degree 4 and depth 1
 
-// display_list(make_k_list(2, 3));
+// const klistB = list(list(0, 6, 3), list(8, 6, 10), list(5, 1, 25));
+//               // k-list of degree 3 and depth 2
+
+// const klistC = list(list(list(1, 2), list(3, 4)),
+//                     list(list(5, 6), list(7, 8)));
+//               // k-list of degree 2 and depth 3
+               
+               
+//make_k_list takes as arguments a positive integer k and a non-negative integer d, 
+//and returns a k-list of degree k and depth d. The numbers in the k-list must all be 0.
+
+// degree refers to the element in each list and depth refers to the number of list structures;
+
+function make_k_list(k, d) {
+    if (d === 0) {
+    return 0;
+    } else {
+    let klist = null;
+    for (let i = 0; i < k; i = i + 1) {
+     klist = pair(make_k_list(k, d - 1), klist);
+    }
+    return klist;
+    }
+}
+
+function make_k_list(k, d) {
+    if(d === 0) {
+        return 0;
+    } else if (k === 0) {
+        return null;
+    } else {
+        
+        const k_list = pair(0, make_k_list(k - 1, d));
+        return map(x => make_k_list(k, d - 1), k_list);
+        
+    }
+}
 
 --------------------------------------------------------------------------------
 
 //PA1 Task 1B:
 
-// function sum_k_list(klist) {
+function sum_k_list(klist) {
 
-//     function accumulate_tree(f, op, initial, tree) {
-//         return accumulate((x, ys) => !is_list(x)
-//                                   ? op(f(x), ys)
-//                                   : op(accumulate_tree(f, op, initial, x), ys),
-//                           initial,
-//                           tree );
-//     }
-//     return !is_list(klist) ? klist : accumulate_tree(x => x, (x, y) => x + y, 0, klist);
-// }
+    function accumulate_tree(f, op, initial, tree) {
+        return accumulate((x, ys) => !is_list(x)
+                                  ? op(f(x), ys)
+                                  : op(accumulate_tree(f, op, initial, x), ys),
+                          initial,
+                          tree );
+    }
+    return !is_list(klist) ? klist : accumulate_tree(x => x, (x, y) => x + y, 0, klist);
+}
 
 --------------------------------------------------------------------------------
 
 // //PA1 Task 1C
-// function map_k_list(f, klist) {
+function map_k_list(f, klist) {
 
-//     // WRITE YOUR SOLUTION HERE.
-//     function map_tree(f, tree) {
-//         return map(sub_tree =>
-//                   !is_list(sub_tree)
-//                  ? f(sub_tree)
-//                  : map_tree(f, sub_tree) , tree); 
-//     }
-//     return is_list(klist) ? map_tree(f, klist) : f(klist);
-// }
+    // WRITE YOUR SOLUTION HERE.
+    function map_tree(f, tree) {
+        return map(sub_tree =>
+                  !is_list(sub_tree)
+                 ? f(sub_tree)
+                 : map_tree(f, sub_tree) , tree); 
+    }
+    return is_list(klist) ? map_tree(f, klist) : f(klist);
+}
 
-// --------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
-// //PA1 Task 2
-// function route_distance(mat, route) {
+//PA1 Task 2
+function route_distance(mat, route) {
 
-//     // WRITE YOUR SOLUTION HERE.
-//     return is_null(tail(route))
-//          ? 0
-//          : mat[head(route)][head(tail(route))] + route_distance(mat, tail(route));
-// }
+    // WRITE YOUR SOLUTION HERE.
+    return is_null(tail(route))
+         ? 0
+         : mat[head(route)][head(tail(route))] + route_distance(mat, tail(route));
+}
 
 
 --------------------------------------------------------------------------------
@@ -313,8 +328,79 @@ function split(S) {
 }
 
 --------------------------------------------------------------------------------
+
+// // TASK 1B：
+
+// // method 1 (count approach):
+
+// function helper_count(Arr1, Arr2, count) {
+    
+//     const len1 = array_length(Arr1);
+//     const len2 = array_length(Arr2);
+    
+//     for (let i = 0; i < len1; i = i + 1) {
+//         for (let k = 0; k < len2; k = k + 1) {
+//             if(Arr1[i] === Arr2[k]) {
+//                 count = count + 1;
+//             }
+//         }
+//     }return count;
+// }
+// // array length is always 1 more than the index. 
+
+// function num_characters_from(A, B) {
+    
+//     // WRITE YOUR SOLUTION HERE.
+//     if (array_length(A) === 0 || array_length(B) === 0){
+//         return 0;
+//     } else if (array_length(A) > array_length(B)) {
+//         return helper_count(A, B, 0);
+//     }
+// }
+
 --------------------------------------------------------------------------------
+
+// TASK 1C
+
+// You may write helper functions here.
+function helper(Arr1, count){
+    const Arr_len = array_length(Arr1);
+    let occurrence = false;
+    
+    for (let i = 0; i < Arr_len; i = i + 1) {
+        
+        let head_arr = Arr1[i];
+        
+        for (let k = 0; k < Arr_len - i; k = k + 1){
+            if(head_arr === occurrence) {
+                occurrence = head_arr;
+                break;
+            }
+            else if(head_arr === Arr1[i] ) {
+                occurrence = head_arr;
+                count = count + 1;
+            }
+        }
+    }return count;
+}
+
+
+function num_unique(A) {
+
+    // WRITE YOUR SOLUTION HERE.
+    if(array_length(A) === 0) {
+        return 0;
+    } else {
+        return helper(A, 0);
+    }
+
+}
+
+num_unique(["o", "c", "c", "u", "r", "r", "e", "n", "c", "e"]);
+
 --------------------------------------------------------------------------------
+
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
