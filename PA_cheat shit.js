@@ -125,33 +125,34 @@ undefined
 
 --------------------------------------------------------------------------------
 
-//PA1 Task 1C
-function map_k_list(f, klist) {
+// //PA1 Task 1C
+// function map_k_list(f, klist) {
 
-    // WRITE YOUR SOLUTION HERE.
-    function map_tree(f, tree) {
-        return map(sub_tree =>
-                  !is_list(sub_tree)
-                 ? f(sub_tree)
-                 : map_tree(f, sub_tree) , tree); 
-    }
-    return is_list(klist) ? map_tree(f, klist) : f(klist);
-}
+//     // WRITE YOUR SOLUTION HERE.
+//     function map_tree(f, tree) {
+//         return map(sub_tree =>
+//                   !is_list(sub_tree)
+//                  ? f(sub_tree)
+//                  : map_tree(f, sub_tree) , tree); 
+//     }
+//     return is_list(klist) ? map_tree(f, klist) : f(klist);
+// }
+
+// --------------------------------------------------------------------------------
+
+// //PA1 Task 2
+// function route_distance(mat, route) {
+
+//     // WRITE YOUR SOLUTION HERE.
+//     return is_null(tail(route))
+//          ? 0
+//          : mat[head(route)][head(tail(route))] + route_distance(mat, tail(route));
+// }
+
 
 --------------------------------------------------------------------------------
-
-//PA1 Task 2
-function route_distance(mat, route) {
-
-    // WRITE YOUR SOLUTION HERE.
-    return is_null(tail(route))
-         ? 0
-         : mat[head(route)][head(tail(route))] + route_distance(mat, tail(route));
-}
-
-
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
+// PA
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
