@@ -211,7 +211,7 @@ function delta_encode(L) {
      
 --------------------------------------------------------------------------------
 
-//PA2 Task 2A
+//PA2 Task 2A (transfer list to list contains pair which record the repeated number in the list)
 
 function runlength_encode(L) {
 
@@ -228,10 +228,13 @@ function runlength_encode(L) {
            : encode(head(L), 1, tail(L));
 }
 
+//runlength_encode(list(6,5,5,9,7,7,5,5,5));
+    // returns list(6, [5,2], 9, [7,2], [5,3])
 
 --------------------------------------------------------------------------------
 
-//PA2 Task 2B
+//PA2 Task 2B (transfer list contains pair(which record the repeated number) 
+// into list with only elements)
 
 function runlength_decode(R) {
 
@@ -258,7 +261,8 @@ function runlength_decode(R) {
     }
 }
 
-display_list(runlength_decode(list(6, [5,2], 9, [7,2], [5,3])));
+// runlength_decode(list(6, [5,2], 9, [7,2], [5,3]));
+         // returns list(6,5,5,9,7,7,5,5,5)
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
